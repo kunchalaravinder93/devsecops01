@@ -4,6 +4,9 @@ on:
   push:
     branches: ["main"]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,11 +18,10 @@ jobs:
       - name: Install JMeter
         run: |
           sudo apt-get update
-          sudo apt-get install jmeter -y
+          sudo apt-get install -y jmeter
 
       - name: Run Pipeline Script
-        run: |
-          bash scripts/run-tests.sh
+        run: bash scripts/run-tests.sh
 
       - name: Upload Reports
         uses: actions/upload-artifact@v4
