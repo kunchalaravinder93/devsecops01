@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -11,10 +11,6 @@ echo "Generating JMeter HTML Report..."
 jmeter -g result.jtl -o jmeter-report
 
 echo "Running OWASP ZAP Security Scan..."
-docker run -v $(pwd):/zap/wrk/:rw \
-owasp/zap2docker-stable \
-zap-baseline.py \
--t https://jsonplaceholder.typicode.com \
--r zap-report.html
+docker run --rm -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t https://jsonplaceholder.typicode.com -r zap-report.html
 
-echo "All tests completed successfully"
+echo "Pipeline finished successfully"
