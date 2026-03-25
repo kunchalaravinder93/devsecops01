@@ -10,31 +10,19 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install JMeter
         run: |
           sudo apt-get update
           sudo apt-get install jmeter -y
 
-      - name: Run Performance Test
+      - name: Run Pipeline Script
         run: |
-          jmeter -n -t jmeter/test-plan.jmx -l result.jtl
-
-      - name: Generate Report
-        run: |
-          jmeter -g result.jtl -o jmeter-report
-
-      - name: Run Security Scan
-        run: |
-          docker run -v $(pwd):/zap/wrk/:rw \
-          owasp/zap2docker-stable \
-          zap-baseline.py \
-          -t https://jsonplaceholder.typicode.com \
-          -r zap-report.html
+          bash scripts/run-tests.sh
 
       - name: Upload Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pipeline-reports
           path: |
