@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0">
   <hashTree>
-    <TestPlan testname="Simple API Test" enabled="true">
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-    </TestPlan>
+    <TestPlan testname="CI API Test" enabled="true"/>
     <hashTree>
 
       <ThreadGroup testname="Users" enabled="true">
-        <stringProp name="ThreadGroup.num_threads">10</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">5</stringProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
-          <stringProp name="LoopController.loops">2</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
       </ThreadGroup>
 
       <hashTree>
-        <HTTPSamplerProxy testname="GET Posts">
+        <HTTPSamplerProxy testname="API Request">
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.domain">jsonplaceholder.typicode.com</stringProp>
           <stringProp name="HTTPSampler.path">/posts</stringProp>
