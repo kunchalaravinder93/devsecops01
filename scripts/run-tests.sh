@@ -6,7 +6,7 @@ echo "Starting Security + Performance Pipeline"
 echo "Running JMeter Load Test (Docker)..."
 docker run --rm \
   -v $(pwd):/test \
-  justb4/jmeter:5.6.3 \
+  justb4/jmeter:5.5 \
   -n -t /test/jmeter/test-plan.jmx -l /test/result.jtl
 
 echo "Running OWASP ZAP Security Scan..."
