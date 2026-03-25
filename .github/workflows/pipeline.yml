@@ -1,0 +1,43 @@
+name: Security + Performance Pipeline
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install JMeter
+        run: |
+          sudo apt-get update
+          sudo apt-get install jmeter -y
+
+      - name: Run Performance Test
+        run: |
+          jmeter -n -t jmeter/test-plan.jmx -l result.jtl
+
+      - name: Generate Report
+        run: |
+          jmeter -g result.jtl -o jmeter-report
+
+      - name: Run Security Scan
+        run: |
+          docker run -v $(pwd):/zap/wrk/:rw \
+          owasp/zap2docker-stable \
+          zap-baseline.py \
+          -t https://jsonplaceholder.typicode.com \
+          -r zap-report.html
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: pipeline-reports
+          path: |
+            result.jtl
+            jmeter-report
+            zap-report.html
